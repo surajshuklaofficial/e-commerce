@@ -9,6 +9,8 @@ import { Strategy as JwtStrategy } from "passport-jwt";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
+import path from "node:path";
+import { fileURLToPath } from 'node:url';
 
 import productRouter from "./routes/product.js";
 import brandsRouter from "./routes/brand.js";
@@ -24,7 +26,10 @@ import Stripe from "stripe";
 dotenv.config();
 const server = express();
 const stripe = Stripe(process.env.STRIPE_SERVER_KEY);
-server.use(express.static("dist"));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+server.use(express.static(path.resolve(__dirname, 'dist')));
+
 server.use(cookieParser());
 // server.use(express.raw({ type: "application/json" }));
 
@@ -45,6 +50,7 @@ server.use(
 );
 
 server.use(express.json()); // to parse req.body(json) into JS object
+server.use(express.static(path.resolve(__dirname, 'build')));
 
 // local strategies
 passport.use(
@@ -210,11 +216,10 @@ server.use("/users", isAuth(), userRouter);
 server.use("/cart", isAuth(), cartRouter);
 server.use("/orders", isAuth(), orderRouter);
 
-// server.get("/", (req, res) => {
-//   console.log("hi", _pathname)
-//   console.log(path.join(_pathname.split("/").slice(0, -1).join("/"), "dist", "index.html"))
-//   res.sendFile("file:///C:/Users/surajshukla/Desktop/web-projects/ongoing-next/e-commerce/backend/dist/index.html");
-// });
+// this line we add to make react router work in case of other routes doesnt match
+server.get('*', (req, res) =>
+  res.sendFile(path.resolve('dist', 'index.html'))
+);
 
 const port = process.env.PORT || 3000;
 
