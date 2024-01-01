@@ -184,7 +184,7 @@ server.post(
       response.status(400).send(`Webhook Error: ${err.message}`);
       return;
     }
-    console.log(event.type, event)
+    console.log("hfadfaf", event.type, event)
     // Handle the event
     switch (event.type) {
       case "payment_intent.succeeded":
@@ -206,13 +206,13 @@ mongoose
   .then(() => console.log("Connected with Database!"))
   .catch((error) => console.log(error));
 
-server.use("/products", isAuth(), productRouter);
-server.use("/brands", isAuth(), brandsRouter);
-server.use("/categories", isAuth(), categoriesRouter);
-server.use("/auth", authRouter);
-server.use("/users", isAuth(), userRouter);
-server.use("/cart", isAuth(), cartRouter);
-server.use("/orders", isAuth(), orderRouter);
+server.use("/api/v1/products", isAuth(), productRouter);
+server.use("/api/v1/brands", isAuth(), brandsRouter);
+server.use("/api/v1/categories", isAuth(), categoriesRouter);
+server.use("/api/v1/auth", authRouter);
+server.use("/api/v1/users", isAuth(), userRouter);
+server.use("/api/v1/cart", isAuth(), cartRouter);
+server.use("/api/v1/orders", isAuth(), orderRouter);
 
 // this line we add to make react router work in case of other routes doesnt match
 server.get("*", (req, res) => res.sendFile(path.resolve("dist", "index.html")));
