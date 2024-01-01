@@ -53,7 +53,6 @@ export const fetchAllProducts = async (req, res) => {
 
 export const fetchProductById = async (req, res) => {
   const { id } = req.params;
-
   try {
     const product = await Product.findById(id);
     res.status(200).json(product);

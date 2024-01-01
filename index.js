@@ -10,7 +10,7 @@ import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import path from "node:path";
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath } from "node:url";
 
 import productRouter from "./routes/product.js";
 import brandsRouter from "./routes/brand.js";
@@ -28,7 +28,7 @@ const server = express();
 const stripe = Stripe(process.env.STRIPE_SERVER_KEY);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-server.use(express.static(path.resolve(__dirname, 'dist')));
+server.use(express.static(path.resolve(__dirname, "dist")));
 
 server.use(cookieParser());
 // server.use(express.raw({ type: "application/json" }));
@@ -43,14 +43,12 @@ server.use(
 server.use(passport.authenticate("session"));
 server.use(
   cors({
-    origin: "http://localhost:5173",
-    credentials: true,
     exposedHeaders: ["X-Total-Count", "Set-Cookie"],
   })
 );
 
 server.use(express.json()); // to parse req.body(json) into JS object
-server.use(express.static(path.resolve(__dirname, 'build')));
+server.use(express.static(path.resolve(__dirname, "build", "login")));
 
 // local strategies
 passport.use(
@@ -186,7 +184,7 @@ server.post(
       response.status(400).send(`Webhook Error: ${err.message}`);
       return;
     }
-
+    console.log(event.type, event)
     // Handle the event
     switch (event.type) {
       case "payment_intent.succeeded":
@@ -217,9 +215,7 @@ server.use("/cart", isAuth(), cartRouter);
 server.use("/orders", isAuth(), orderRouter);
 
 // this line we add to make react router work in case of other routes doesnt match
-server.get('*', (req, res) =>
-  res.sendFile(path.resolve('dist', 'index.html'))
-);
+server.get("*", (req, res) => res.sendFile(path.resolve("dist", "index.html")));
 
 const port = process.env.PORT || 3000;
 
