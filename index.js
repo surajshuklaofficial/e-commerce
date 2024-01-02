@@ -27,9 +27,12 @@ import Order from "./model/order.js";
 dotenv.config();
 const server = express();
 
+// This is your test secret API key.
+const stripe = Stripe(process.env.STRIPE_SERVER_KEY);
+
 // Webhook
 const endpointSecret = process.env.ENDPOINT_SECRET;
-server.use(express.raw({ type: "application/json" }));
+// server.use(express.raw({ type: "application/json" }));
 server.post(
   "/webhook",
   express.raw({ type: "application/json" }),
@@ -177,9 +180,6 @@ passport.deserializeUser(function (user, cb) {
 });
 
 // Payments
-
-// This is your test secret API key.
-const stripe = Stripe(process.env.STRIPE_SERVER_KEY);
 
 server.post("/create-payment-intent", async (req, res) => {
   const { totalAmount, orderId } = req.body;
