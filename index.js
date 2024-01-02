@@ -26,17 +26,16 @@ import Order from "./model/order.js";
 
 dotenv.config();
 const server = express();
-// server.use(express.raw({ type: "application/json" }));
 
 // Webhook
 const endpointSecret = process.env.ENDPOINT_SECRET;
-
+server.use(express.raw({ type: "application/json" }));
 server.post(
   "/webhook",
   express.raw({ type: "application/json" }),
   async (request, response) => {
     const sig = request.headers["stripe-signature"];
-
+    console.log("hiHIHI");
     let event;
 
     try {
