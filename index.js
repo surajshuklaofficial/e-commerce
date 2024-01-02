@@ -22,9 +22,12 @@ import orderRouter from "./routes/order.js";
 import User from "./model/user.js";
 import { cookieExtractor, isAuth, sanitizeUser } from "./service/common.js";
 import Stripe from "stripe";
+import Order from "./model/order.js";
 
 dotenv.config();
 const server = express();
+server.use(express.raw({ type: "application/json" }));
+
 // Webhook
 const endpointSecret = process.env.ENDPOINT_SECRET;
 
@@ -90,6 +93,7 @@ server.use(
     exposedHeaders: ["X-Total-Count"],
   })
 );
+
 server.use(express.json()); // to parse req.body
 
 server.use("/api/v1/products", isAuth(), productRouter);
