@@ -26,7 +26,7 @@ import Order from "./model/order.js";
 
 dotenv.config();
 const server = express();
-server.use(express.raw({ type: "application/json" }));
+// server.use(express.raw({ type: "application/json" }));
 
 // Webhook
 const endpointSecret = process.env.ENDPOINT_SECRET;
