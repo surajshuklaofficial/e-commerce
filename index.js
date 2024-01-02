@@ -56,6 +56,7 @@ server.post(
         const order = await Order.findById(
           paymentIntentSucceeded.metadata.orderId
         );
+        console.log(order)
         order.paymentStatus = "received";
         await order.save();
 
