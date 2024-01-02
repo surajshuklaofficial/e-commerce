@@ -38,7 +38,7 @@ server.post(
   express.raw({ type: "application/json" }),
   async (request, response) => {
     const sig = request.headers["stripe-signature"];
-    console.log("hiHIHI", event);
+    console.log("hiHIHI");
     let event;
 
     try {
@@ -47,7 +47,7 @@ server.post(
       response.status(400).send(`Webhook Error: ${err.message}`);
       return;
     }
-
+    console.log("hi0", event)
     // Handle the event
     switch (event.type) {
       case "payment_intent.succeeded":
