@@ -32,7 +32,7 @@ const stripe = Stripe(process.env.STRIPE_SERVER_KEY);
 
 // Webhook
 const endpointSecret = process.env.ENDPOINT_SECRET;
-server.use(express.raw({ type: "application/json" }));
+// server.use(express.raw({ type: "application/json" }));
 server.post(
   "/webhook",
   express.raw({ type: "application/json" }),
